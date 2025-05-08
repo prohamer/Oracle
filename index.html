@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>古文字字體測試</title>
+    <style>
+        /* 導入甲骨文字型 */
+        @font-face {
+            font-family: 'CDPJiagu';
+            src: url('./fonts/cdpjiagu.ttf') format('truetype');
+            font-display: swap;
+        }
+        
+        /* 導入小篆字型 */
+        @font-face {
+            font-family: 'CDPXiaochuan';
+            src: url('./fonts/cdpxiaochuan.ttf') format('truetype');
+            font-display: swap;
+        }
+        
+        body {
+            font-family: "Microsoft JhengHei", "微軟正黑體", sans-serif;
+            padding: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .test-container {
+            margin-bottom: 40px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .test-item {
+            font-size: 24px;
+            margin: 20px 0;
+        }
+        
+        .jiagu {
+            font-family: 'CDPJiagu', serif;
+            font-size: 36px;
+        }
+        
+        .xiaochuan {
+            font-family: 'CDPXiaochuan', serif;
+            font-size: 32px;
+        }
+        
+        .instructions {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+    <h1>古文字字體測試</h1>
+    
+    <div class="test-container">
+        <div class="test-item">
+            甲骨文 <span class="jiagu">月</span>字
+        </div>
+        
+        <div class="test-item">
+            小篆 <span class="xiaochuan">月</span>字
+        </div>
+    </div>
+    
+    <div class="instructions">
+        <h2>使用說明</h2>
+        <p>此頁面測試甲骨文和小篆字體的正確顯示。確保將以下文件上傳到GitHub:</p>
+        <ul>
+            <li>此HTML文件</li>
+            <li>字體文件夾 (fonts) 包含:
+                <ul>
+                    <li>cdpjiagu.ttf (甲骨文字體)</li>
+                    <li>cdpxiaochuan.ttf (小篆字體)</li>
+                </ul>
+            </li>
+        </ul>
+        <p>請確保文件結構如下:</p>
+        <pre>
+your-repository/
+├── index.html (此測試頁面)
+└── fonts/
+    ├── cdpjiagu.ttf
+    └── cdpxiaochuan.ttf
+        </pre>
+    </div>
+</body>
+</html>
