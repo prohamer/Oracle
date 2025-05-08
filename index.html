@@ -3,26 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>古文字字體測試 (修正版)</title>
+    <title>古文字字體測試 (最終版)</title>
     <style>
-        /* 導入甲骨文字型 - 使用完整的相對路徑 */
-        @font-face {
-            font-family: 'CDPJiagu';
-            src: url('./fonts/cdpjiagu.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-            font-display: swap;
-        }
-        
-        /* 導入小篆字型 - 使用完整的相對路徑 */
-        @font-face {
-            font-family: 'CDPXiaochuan';
-            src: url('./fonts/cdpxiaochuan.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
-            font-display: swap;
-        }
-        
         body {
             font-family: "Microsoft JhengHei", "微軟正黑體", sans-serif;
             padding: 30px;
@@ -47,204 +29,298 @@
         .test-item {
             font-size: 24px;
             margin: 20px 0;
-            display: flex;
-            align-items: center;
         }
         
-        /* 甲骨文字型應用 */
-        .jiagu {
-            font-family: 'CDPJiagu', serif !important;
-            font-size: 36px;
-            padding: 5px 10px;
-            margin: 0 5px;
+        .font-label {
+            display: inline-block;
+            width: 80px;
+            vertical-align: middle;
+        }
+        
+        /* 測試字元容器 */
+        .test-char {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 0 10px;
             background-color: #f5f5f5;
-            border-radius: 4px;
             border: 1px dashed #ccc;
-        }
-        
-        /* 小篆字型應用 */
-        .xiaochuan {
-            font-family: 'CDPXiaochuan', serif !important;
-            font-size: 32px;
-            padding: 5px 10px;
-            margin: 0 5px;
-            background-color: #f5f5f5;
             border-radius: 4px;
-            border: 1px dashed #ccc;
+            vertical-align: middle;
+            position: relative;
         }
         
-        .font-info {
-            color: #666;
-            font-size: 14px;
-            margin-top: 5px;
-        }
-        
-        .instructions {
-            background-color: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 40px;
-        }
-        
-        .debug-panel {
+        /* 測試選項 */
+        .options {
             margin-top: 30px;
             padding: 15px;
             background-color: #f0f8ff;
-            border: 1px solid #add8e6;
             border-radius: 5px;
         }
         
-        .debug-heading {
+        .option-row {
+            margin-bottom: 15px;
+        }
+        
+        /* 測試按鈕 */
+        .test-btn {
+            display: inline-block;
+            margin: 5px;
+            padding: 8px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .test-btn:hover {
+            background-color: #45a049;
+        }
+        
+        /* 測試結果 */
+        #testResults {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            display: none;
+        }
+        
+        /* 字體顯示方式說明 */
+        .method-info {
+            margin-top: 40px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+        
+        .method-title {
             font-weight: bold;
             margin-bottom: 10px;
         }
         
-        .debug-button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 10px 2px;
-            cursor: pointer;
-            border-radius: 4px;
+        /* ============ 字體定義 - 多種方式 ============ */
+        
+        /* 方式1: 使用相對路徑 */
+        @font-face {
+            font-family: 'JiaguPath';
+            src: url('./fonts/cdpjiagu.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
         }
+        
+        @font-face {
+            font-family: 'XiaochuanPath';
+            src: url('./fonts/cdpxiaochuan.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        
+        /* 方式2: 使用絕對路徑 */
+        @font-face {
+            font-family: 'JiaguAbsolute';
+            src: url('/fonts/cdpjiagu.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        
+        @font-face {
+            font-family: 'XiaochuanAbsolute';
+            src: url('/fonts/cdpxiaochuan.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        
+        /* 不同方式的測試類別 */
+        #jiaguTest1 { font-family: 'JiaguPath', serif; font-size: 36px; color: #E91E63; }
+        #jiaguTest2 { font-family: 'JiaguAbsolute', serif; font-size: 36px; color: #9C27B0; }
+        
+        #xiaochuanTest1 { font-family: 'XiaochuanPath', serif; font-size: 36px; color: #2196F3; }
+        #xiaochuanTest2 { font-family: 'XiaochuanAbsolute', serif; font-size: 36px; color: #009688; }
+        
+        /* 測試用標準字體 */
+        .standard-font { font-family: serif; font-size: 36px; color: #000000; }
     </style>
 </head>
 <body>
-    <h1>古文字字體測試 (修正版)</h1>
+    <h1>古文字字體測試 (最終版)</h1>
     
     <div class="test-container">
         <div class="test-item">
-            甲骨文 <span class="jiagu">月</span> 字
-            <div class="font-info">（應使用甲骨文字體顯示「月」字）</div>
+            <span class="font-label">甲骨文:</span>
+            <span id="jiaguChar" class="test-char">月</span>
+            <span>字</span>
         </div>
         
         <div class="test-item">
-            小篆 <span class="xiaochuan">月</span> 字
-            <div class="font-info">（應使用小篆字體顯示「月」字）</div>
+            <span class="font-label">小篆:</span>
+            <span id="xiaochuanChar" class="test-char">月</span>
+            <span>字</span>
+        </div>
+        
+        <div class="test-item">
+            <span class="font-label">標準字體:</span>
+            <span class="test-char standard-font">月</span>
+            <span>(比較用)</span>
         </div>
     </div>
     
-    <div class="debug-panel">
-        <div class="debug-heading">字體載入檢測</div>
-        <p>如果字體沒有正確顯示，請檢查下列事項：</p>
-        <ol>
-            <li>確認字體文件是否已上傳到正確目錄（./fonts/cdpjiagu.ttf 和 ./fonts/cdpxiaochuan.ttf）</li>
-            <li>檢查瀏覽器控制台是否有字體加載錯誤</li>
-            <li>確認字體文件名稱是否正確（區分大小寫）</li>
-        </ol>
-        <button class="debug-button" onclick="checkFonts()">檢測字體加載狀態</button>
-        <div id="fontStatus"></div>
+    <div class="options">
+        <h3>測試選項</h3>
+        
+        <div class="option-row">
+            <span>甲骨文字體: </span>
+            <button class="test-btn" onclick="changeFont('jiaguChar', 'JiaguPath')">使用相對路徑</button>
+            <button class="test-btn" onclick="changeFont('jiaguChar', 'JiaguAbsolute')">使用絕對路徑</button>
+        </div>
+        
+        <div class="option-row">
+            <span>小篆字體: </span>
+            <button class="test-btn" onclick="changeFont('xiaochuanChar', 'XiaochuanPath')">使用相對路徑</button>
+            <button class="test-btn" onclick="changeFont('xiaochuanChar', 'XiaochuanAbsolute')">使用絕對路徑</button>
+        </div>
+        
+        <button class="test-btn" style="margin-top: 10px;" onclick="testFontLoading()">檢測字體加載狀態</button>
+        
+        <div id="testResults"></div>
     </div>
     
-    <div class="instructions">
-        <h2>正確使用說明</h2>
-        <p>此頁面測試甲骨文和小篆字體的顯示。確保將以下文件上傳到GitHub:</p>
-        <ul>
-            <li>此HTML文件 (index.html)</li>
-            <li>fonts/ 目錄包含下列文件:
-                <ul>
-                    <li>cdpjiagu.ttf (甲骨文字體)</li>
-                    <li>cdpxiaochuan.ttf (小篆字體)</li>
-                </ul>
-            </li>
-        </ul>
-        
-        <h3>GitHub Pages 設置</h3>
-        <p>確保在GitHub中開啟Pages功能：</p>
-        <ol>
-            <li>前往存儲庫的「Settings」</li>
-            <li>向下滾動至「GitHub Pages」部分</li>
-            <li>在「Source」下選擇分支 (通常是 main 或 master)</li>
-            <li>點擊「Save」</li>
-        </ol>
+    <div class="method-info">
+        <div class="method-title">字體檔案路徑說明</div>
+        <p>此頁面測試兩種不同的字體檔案路徑:
+            <ol>
+                <li><strong>相對路徑</strong>: ./fonts/cdpjiagu.ttf 和 ./fonts/cdpxiaochuan.ttf (相對於HTML文件的位置)</li>
+                <li><strong>絕對路徑</strong>: /fonts/cdpjiagu.ttf 和 /fonts/cdpxiaochuan.ttf (相對於網站根目錄)</li>
+            </ol>
+        </p>
+        <p>如果您在GitHub Pages上使用此頁面，建議的檔案結構為:
+            <pre>
+username.github.io/ 或 username.github.io/repo-name/
+├── index.html (此測試頁面)
+└── fonts/
+    ├── cdpjiagu.ttf (甲骨文字體)
+    └── cdpxiaochuan.ttf (小篆字體)
+            </pre>
+        </p>
     </div>
     
     <script>
-        function checkFonts() {
-            const statusDiv = document.getElementById('fontStatus');
-            statusDiv.innerHTML = "<p>正在檢測字體...</p>";
+        // 頁面加載時初始化字體
+        window.onload = function() {
+            changeFont('jiaguChar', 'JiaguPath');
+            changeFont('xiaochuanChar', 'XiaochuanPath');
+        };
+        
+        // 切換字體
+        function changeFont(elementId, fontFamily) {
+            document.getElementById(elementId).style.fontFamily = "'" + fontFamily + "', serif";
             
-            // 檢測CDPJiagu字體
-            const checkJiagu = new Promise(resolve => {
-                const testElement = document.createElement('span');
-                testElement.style.fontFamily = 'CDPJiagu, monospace';
-                testElement.style.position = 'absolute';
-                testElement.style.visibility = 'hidden';
-                testElement.textContent = '月';
-                document.body.appendChild(testElement);
-                
-                // 延遲檢測，等待字體加載
-                setTimeout(() => {
-                    const defaultWidth = testElement.offsetWidth;
-                    testElement.style.fontFamily = 'monospace';
-                    const fallbackWidth = testElement.offsetWidth;
-                    document.body.removeChild(testElement);
-                    
-                    resolve(defaultWidth !== fallbackWidth);
-                }, 100);
-            });
-            
-            // 檢測CDPXiaochuan字體
-            const checkXiaochuan = new Promise(resolve => {
-                const testElement = document.createElement('span');
-                testElement.style.fontFamily = 'CDPXiaochuan, monospace';
-                testElement.style.position = 'absolute';
-                testElement.style.visibility = 'hidden';
-                testElement.textContent = '月';
-                document.body.appendChild(testElement);
-                
-                // 延遲檢測，等待字體加載
-                setTimeout(() => {
-                    const defaultWidth = testElement.offsetWidth;
-                    testElement.style.fontFamily = 'monospace';
-                    const fallbackWidth = testElement.offsetWidth;
-                    document.body.removeChild(testElement);
-                    
-                    resolve(defaultWidth !== fallbackWidth);
-                }, 100);
-            });
-            
-            // 檢測字體文件是否存在
-            const checkJiaguFile = fetch('./fonts/cdpjiagu.ttf')
-                .then(response => response.ok)
-                .catch(() => false);
-                
-            const checkXiaochuanFile = fetch('./fonts/cdpxiaochuan.ttf')
-                .then(response => response.ok)
-                .catch(() => false);
-            
-            // 綜合檢測結果
-            Promise.all([checkJiagu, checkXiaochuan, checkJiaguFile, checkXiaochuanFile])
-                .then(([jiaguLoaded, xiaochuanLoaded, jiaguExists, xiaochuanExists]) => {
-                    let html = '<h3>檢測結果</h3>';
-                    html += '<ul>';
-                    html += `<li>甲骨文字體文件存在: ${jiaguExists ? '✅' : '❌'}</li>`;
-                    html += `<li>小篆字體文件存在: ${xiaochuanExists ? '✅' : '❌'}</li>`;
-                    html += `<li>甲骨文字體加載: ${jiaguLoaded ? '✅' : '❌'}</li>`;
-                    html += `<li>小篆字體加載: ${xiaochuanLoaded ? '✅' : '❌'}</li>`;
-                    html += '</ul>';
-                    
-                    if (!jiaguExists || !xiaochuanExists) {
-                        html += '<p><strong>問題：</strong> 字體文件不存在或路徑錯誤。請確保字體文件已正確上傳到 ./fonts/ 目錄。</p>';
-                    } else if (!jiaguLoaded || !xiaochuanLoaded) {
-                        html += '<p><strong>問題：</strong> 字體文件存在但未正確加載。可能是字體格式問題或瀏覽器兼容性問題。</p>';
-                    } else {
-                        html += '<p><strong>結果：</strong> 所有字體已正確加載！如果您仍然看不到正確的字體顯示，可能是CSS選擇器問題。</p>';
-                    }
-                    
-                    statusDiv.innerHTML = html;
-                });
+            // 更新字體顏色以便識別
+            if (fontFamily === 'JiaguPath') {
+                document.getElementById(elementId).style.color = '#E91E63';
+            } else if (fontFamily === 'JiaguAbsolute') {
+                document.getElementById(elementId).style.color = '#9C27B0';
+            } else if (fontFamily === 'XiaochuanPath') {
+                document.getElementById(elementId).style.color = '#2196F3';
+            } else if (fontFamily === 'XiaochuanAbsolute') {
+                document.getElementById(elementId).style.color = '#009688';
+            }
         }
         
-        // 頁面加載後自動檢測
-        window.addEventListener('load', () => {
-            setTimeout(checkFonts, 1000); // 延遲1秒檢測，確保字體有機會加載
-        });
+        // 測試字體加載
+        function testFontLoading() {
+            const resultDiv = document.getElementById('testResults');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '<p>正在檢測字體加載狀態...</p>';
+            
+            const fontFamilies = ['JiaguPath', 'JiaguAbsolute', 'XiaochuanPath', 'XiaochuanAbsolute'];
+            const fontFiles = [
+                {path: './fonts/cdpjiagu.ttf', type: '相對路徑甲骨文'},
+                {path: '/fonts/cdpjiagu.ttf', type: '絕對路徑甲骨文'},
+                {path: './fonts/cdpxiaochuan.ttf', type: '相對路徑小篆'},
+                {path: '/fonts/cdpxiaochuan.ttf', type: '絕對路徑小篆'}
+            ];
+            
+            // 檢測字體文件是否存在
+            const filePromises = fontFiles.map(file => 
+                fetch(file.path)
+                    .then(response => ({file: file.type, exists: response.ok}))
+                    .catch(() => ({file: file.type, exists: false}))
+            );
+            
+            // 檢測字體是否加載
+            const fontPromises = fontFamilies.map((family, index) => {
+                return new Promise(resolve => {
+                    const testElement = document.createElement('span');
+                    testElement.style.fontFamily = "'" + family + "', monospace";
+                    testElement.style.position = 'absolute';
+                    testElement.style.visibility = 'hidden';
+                    testElement.textContent = '月';
+                    document.body.appendChild(testElement);
+                    
+                    setTimeout(() => {
+                        const width = testElement.offsetWidth;
+                        testElement.style.fontFamily = 'monospace';
+                        const fallbackWidth = testElement.offsetWidth;
+                        document.body.removeChild(testElement);
+                        
+                        resolve({
+                            font: fontFiles[index].type,
+                            loaded: width !== fallbackWidth
+                        });
+                    }, 100);
+                });
+            });
+            
+            // 合併檢測結果
+            Promise.all([...filePromises, ...fontPromises])
+                .then(results => {
+                    const fileResults = results.slice(0, 4);
+                    const fontResults = results.slice(4);
+                    
+                    let html = '<h4>檢測結果</h4>';
+                    
+                    // 文件檢測結果
+                    html += '<p><strong>字體文件檢測:</strong></p><ul>';
+                    fileResults.forEach(result => {
+                        html += `<li>${result.file}字體文件: ${result.exists ? '✅ 存在' : '❌ 不存在'}</li>`;
+                    });
+                    html += '</ul>';
+                    
+                    // 字體加載檢測結果
+                    html += '<p><strong>字體加載檢測:</strong></p><ul>';
+                    fontResults.forEach(result => {
+                        html += `<li>${result.font}字體: ${result.loaded ? '✅ 已加載' : '❌ 未加載'}</li>`;
+                    });
+                    html += '</ul>';
+                    
+                    // 問題診斷與解決建議
+                    const hasFileIssue = fileResults.some(r => !r.exists);
+                    const hasFontIssue = fontResults.some(r => !r.loaded);
+                    
+                    if (hasFileIssue) {
+                        html += '<p><strong>問題診斷:</strong> 部分字體文件不存在或無法訪問。</p>';
+                        html += '<p><strong>解決建議:</strong></p><ul>';
+                        html += '<li>確認字體文件已上傳到正確位置（./fonts/目錄或網站根目錄下的/fonts/）</li>';
+                        html += '<li>檢查字體文件名稱是否正確（cdpjiagu.ttf 和 cdpxiaochuan.ttf）</li>';
+                        html += '<li>如果使用GitHub Pages，確認倉庫結構正確</li>';
+                        html += '</ul>';
+                    } else if (hasFontIssue) {
+                        html += '<p><strong>問題診斷:</strong> 字體文件存在但未正確加載。</p>';
+                        html += '<p><strong>解決建議:</strong></p><ul>';
+                        html += '<li>檢查字體文件格式是否正確</li>';
+                        html += '<li>嘗試使用其他瀏覽器測試</li>';
+                        html += '<li>嘗試清除瀏覽器緩存後重試</li>';
+                        html += '</ul>';
+                    } else {
+                        html += '<p><strong>結果:</strong> ✅ 所有字體文件存在且已成功加載!</p>';
+                        html += '<p>如果您仍然看不到正確的字體顯示，可能是字體內部編碼問題或瀏覽器兼容性問題。</p>';
+                    }
+                    
+                    resultDiv.innerHTML = html;
+                });
+        }
     </script>
 </body>
 </html>
